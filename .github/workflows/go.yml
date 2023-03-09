@@ -1,0 +1,51 @@
+name: Go
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.19
+
+    - name: Install dependencies
+      run: |
+        go get -v -t -d ./...
+        if [ -f "go.mod" ]; then go mod download; fi
+
+    - name: Build
+      run: go build -v -o cranberry
+
+    - name: Create Debian package
+      run: |
+        mkdir -p debian/DEBIAN
+        echo "Package: cranberry" >> debian/DEBIAN/control
+        echo "Version: 1.0.0" >> debian/DEBIAN/control
+        echo "Architecture: amd64" >> debian/DEBIAN/control
+        echo "Maintainer: VentGrey <ventgrey@gmail.com>" >> debian/DEBIAN/control
+        echo "Description: cranberry - find console logs in TypeScript files" >> debian/DEBIAN/control
+        mkdir -p debian/usr/local/bin
+        cp cranberry debian/usr/local/bin
+        chmod +x debian/usr/local/bin/cranberry
+        dpkg-deb --build debian
+        mv debian.deb cranberry-1.0.0.deb
+
+    - name: Create release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Build"
+        files: |
+          *.deb
+          cranberry.1
