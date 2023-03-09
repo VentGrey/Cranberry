@@ -90,12 +90,11 @@ func main() {
 						incidentType = "console.debug()"
 					}
 
-					// Create a new color for each incident
 					red := color.New(color.FgRed).SprintFunc()
 					yellow := color.New(color.FgYellow).SprintFunc()
 					blue := color.New(color.FgBlue).SprintFunc()
 
-					fmt.Printf("%s en %s, línea %s: %s\n", red(incidentType), yellow(path), blue(i+1), line)
+					fmt.Printf("%s in %s, line %s: %s\n", red(incidentType), yellow(path), blue(i+1), line)
 					incidents += 1
 				}
 			}
@@ -111,10 +110,10 @@ func main() {
 	if incidents > 0 {
 		fmt.Print(strings.Repeat("-", 80))
 		red := color.New(color.FgRed).SprintFunc()
-		fmt.Printf("\n%s %d %s\n", red("¡Se encontraron"), incidents, red("incidencias!"))
+		fmt.Printf("\n%s %d %s\n", red("We found"), incidents, red("incidents!"))
 		os.Exit(1)
 	} else {
-		fmt.Println("No se encontraron apariciones de impresiones de consola")
+		fmt.Println("No console logging was found!")
 		os.Exit(0)
 	}
 }
