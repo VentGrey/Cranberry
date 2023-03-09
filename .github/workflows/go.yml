@@ -33,6 +33,9 @@ jobs:
         echo "Architecture: amd64" >> debian/DEBIAN/control
         echo "Maintainer: VentGrey <ventgrey@gmail.com>" >> debian/DEBIAN/control
         echo "Description: cranberry - find console logs in TypeScript files" >> debian/DEBIAN/control
+        mkdir -p debian/usr/share/man/man1
+        cp cranberry.1 debian/usr/share/man/man1
+        gzip -n -f debian/usr/share/man/man1/cranberry.1
         mkdir -p debian/usr/local/bin
         cp cranberry debian/usr/local/bin
         chmod +x debian/usr/local/bin/cranberry
@@ -47,5 +50,5 @@ jobs:
         prerelease: true
         title: "Build"
         files: |
+          cranberry
           *.deb
-          cranberry.1
