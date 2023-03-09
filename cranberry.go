@@ -34,7 +34,30 @@ func main() {
 			return err
 		}
 
-		if !info.IsDir() && !strings.HasPrefix(info.Name(), ".") && !strings.HasSuffix(info.Name(), ".d.ts") && strings.HasSuffix(info.Name(), ".ts") {
+		if info.IsDir() && (info.Name() == ".git" ||
+			info.Name() == "vendor" ||
+			info.Name() == "node_modules" ||
+			info.Name() == "bower_components" ||
+			info.Name() == "tmp" ||
+			info.Name() == "log" ||
+			info.Name() == "logs" ||
+			info.Name() == "cache" ||
+			info.Name() == "coverage" ||
+			info.Name() == "bin" ||
+			info.Name() == "build" ||
+			info.Name() == "dist" ||
+			info.Name() == "out" ||
+			info.Name() == "target" ||
+			info.Name() == "obj" ||
+			info.Name() == "docs" ||
+			info.Name() == "doc" ||
+			info.Name() == "documentation") {
+			return filepath.SkipDir
+		}
+
+		if !info.IsDir() && !strings.HasPrefix(info.Name(), ".") &&
+			!strings.HasSuffix(info.Name(), ".d.ts") &&
+			strings.HasSuffix(info.Name(), ".ts") {
 			content, err := ioutil.ReadFile(path)
 			if err != nil {
 				return err
