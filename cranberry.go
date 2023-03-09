@@ -7,6 +7,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 func help() {
@@ -72,7 +74,28 @@ func main() {
 					strings.Contains(line, "console.info(") ||
 					strings.Contains(line, "console.debug(") &&
 						!strings.Contains(line, "console.error") {
-					fmt.Printf("Se encontró una aparición de consola en el archivo %s, línea %d, columna %d\n", path, i+1, strings.Index(line, "console.log")+1)
+
+					// Assign type of incident
+					incidentType := ""
+
+					if strings.Contains(line, "console.log(") {
+						incidentType = "console.log()"
+					} else if strings.Contains(line, "console.table(") {
+						incidentType = "console.table()"
+					} else if strings.Contains(line, "console.warn(") {
+						incidentType = "console.warn()"
+					} else if strings.Contains(line, "console.info(") {
+						incidentType = "console.info()"
+					} else if strings.Contains(line, "console.debug(") {
+						incidentType = "console.debug()"
+					}
+
+					// Create a new color for each incident
+					red := color.New(color.FgRed).SprintFunc()
+					yellow := color.New(color.FgYellow).SprintFunc()
+					blue := color.New(color.FgBlue).SprintFunc()
+
+					fmt.Printf("%s en %s, línea %s: %s\n", red(incidentType), yellow(path), blue(i+1), line)
 					incidents += 1
 				}
 			}
@@ -86,7 +109,9 @@ func main() {
 	}
 
 	if incidents > 0 {
-		fmt.Printf("Se encontraron %d apariciones de impresiones de consola\n", incidents)
+		fmt.Print(strings.Repeat("-", 80))
+		red := color.New(color.FgRed).SprintFunc()
+		fmt.Printf("\n%s %d %s\n", red("¡Se encontraron"), incidents, red("incidencias!"))
 		os.Exit(1)
 	} else {
 		fmt.Println("No se encontraron apariciones de impresiones de consola")
