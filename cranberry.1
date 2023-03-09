@@ -1,0 +1,61 @@
+.TH CRANBERRY 1 "March 2023" "Version 1.0" "Cranberry Manual - VentGrey"
+
+.SH NAME
+cranberry - find console logs in TypeScript files
+
+.SH SYNOPSIS
+.B cranberry
+[\fIOPTIONS\fR]
+
+.SH DESCRIPTION
+\fBcranberry\fR is a tool to find occurrences of console logs in TypeScript files.
+By default, it will search for files recursively in the current directory.
+
+.SH OPTIONS
+.TP
+\fB-d, --dir <path>\fR
+Directory to examine. Default is current directory.
+
+.TP
+\fB-h, --help\fR
+Display a help message.
+
+.SH EXAMPLES
+To search for console logs in a specific directory:
+
+.B cranberry -d /path/to/directory
+
+or
+
+.B cranberry --dir /path/to/directory
+
+This will make cranberry search the desired directory for console logs. The default console logs detected as errors are:
+
+console.log()
+console.warn()
+console.info()
+console.debug()
+
+This program won't detect logs that are console.error() as there is a valid reason to show them. Comments that contain any console.log() will be treated as errors.
+
+.SH AUTHOR
+Written by VentGrey & La Esquina Gris.
+
+.SH REPORTING BUGS
+Report bugs to ventgrey@gmail.com.
+
+.SH COPYRIGHT
+Copyright © 2023 Omar Jair Purata Funes - VentGrey
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
