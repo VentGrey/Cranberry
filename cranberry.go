@@ -90,10 +90,9 @@ func main() {
 		red := color.New(color.FgRed).SprintFunc()
 		fmt.Printf("\n%s %d %s\n", red("We found"), incidents, red("incidents!"))
 		os.Exit(1)
-	} else {
-		fmt.Println("No console logging was found!")
-		os.Exit(0)
 	}
+
+	fmt.Println("No console logging was found!")
 }
 
 func help() {
