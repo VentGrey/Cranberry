@@ -7,6 +7,8 @@ This has been tested in the following frameworks:
 - Angular 
 - React
 - Svelte
+- Vue
+- Solid.js
 
 ## 🌟 Features
 
@@ -15,7 +17,7 @@ Cranberry can:
 - Find `console.log()`, `console.table()`, `console.warn()`, `console.info()`, and `console.debug()` statements in your TypeScript code.
 - Display the file path, line number, and line contents of each console statement it finds.
 - Count the number of console statements found and display a summary at the end.
-
+- [EXPERIMENTAL] Remove the offending lines in your project directory.
 
 ## 🚀 Usage
 
@@ -27,18 +29,19 @@ cranberry [options]
 
 - `-d`, `--dir <path>`: Directory to examine.
 - `-h`, `--help`: Display help message.
+- `-r`, `--remove`: Remove offending lines.
 
 ## How it works
 
-Cranberry looks for .ts files recursively in the directory you specify (or the current directory by default) and checks each file for the following console methods:
+Cranberry looks for `.ts` (TypeScript) files recursively in the directory you specify (or the current directory by default) and checks each file for the following console methods:
 
-- console.log
-- console.table
-- console.warn
-- console.info
-- console.debug
+- `console.log()`
+- `console.table()`
+- `console.warn()`
+- `console.info()`
+- `console.debug()`
 
-If it finds any of these methods, but not `console.error`, it will print the offending line(s) with the file name and line number.
+If it finds any of these methods, but not `console.error()`, it will print the offending line(s) with the file name and line number.
 
 ## Installation
 
