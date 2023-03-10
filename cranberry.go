@@ -11,13 +11,6 @@ import (
 	"github.com/fatih/color"
 )
 
-func help() {
-	fmt.Println("Usage: cranberry [options]")
-	fmt.Println("Options:")
-	fmt.Println("  -d, --dir <path>  Directory to examine")
-	fmt.Println("  -h, --help        Display this help message")
-}
-
 func main() {
 	var root string
 	flag.StringVar(&root, "dir", ".", "Directory to examine")
@@ -30,30 +23,16 @@ func main() {
 	}
 
 	incidents := 0
+	skippedDirs := []string{".git", "vendor", "node_modules", "bower_components",
+		"tmp", "log", "logs", "cache", "coverage", "bin", "build", "dist", "out",
+		"target", "obj", "docs", "doc", "documentation"}
 
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 
-		if info.IsDir() && (info.Name() == ".git" ||
-			info.Name() == "vendor" ||
-			info.Name() == "node_modules" ||
-			info.Name() == "bower_components" ||
-			info.Name() == "tmp" ||
-			info.Name() == "log" ||
-			info.Name() == "logs" ||
-			info.Name() == "cache" ||
-			info.Name() == "coverage" ||
-			info.Name() == "bin" ||
-			info.Name() == "build" ||
-			info.Name() == "dist" ||
-			info.Name() == "out" ||
-			info.Name() == "target" ||
-			info.Name() == "obj" ||
-			info.Name() == "docs" ||
-			info.Name() == "doc" ||
-			info.Name() == "documentation") {
+		if info.IsDir() && contains(skippedDirs, info.Name()) {
 			return filepath.SkipDir
 		}
 
@@ -75,7 +54,6 @@ func main() {
 					strings.Contains(line, "console.debug(") &&
 						!strings.Contains(line, "console.error") {
 
-					// Assign type of incident
 					incidentType := ""
 
 					if strings.Contains(line, "console.log(") {
@@ -116,4 +94,20 @@ func main() {
 		fmt.Println("No console logging was found!")
 		os.Exit(0)
 	}
+}
+
+func help() {
+	fmt.Println("Usage: cranberry [options]")
+	fmt.Println("Options:")
+	fmt.Println("  -d, --dir <path>  Directory to examine")
+	fmt.Println("  -h, --help        Display this help message")
+}
+
+func contains(s []string, val string) bool {
+	for _, item := range s {
+		if item == val {
+			return true
+		}
+	}
+	return false
 }
