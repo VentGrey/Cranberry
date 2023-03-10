@@ -17,6 +17,10 @@ By default, it will search for files recursively in the current directory.
 Directory to examine. Default is current directory.
 
 .TP
+\fB-r, --remove\fR
+[Experimental] Remove offending lines of code.
+
+.TP
 \fB-h, --help\fR
 Display a help message.
 
@@ -29,14 +33,15 @@ or
 
 .B cranberry --dir /path/to/directory
 
-This will make cranberry search the desired directory for console logs. The default console logs detected as errors are:
+To delete the offending lines from all of the files in your project:
 
-console.log()
-console.warn()
-console.info()
-console.debug()
+.B cranberry -d /path/to/directory -r
 
-This program won't detect logs that are console.error() as there is a valid reason to show them. Comments that contain any console.log() will be treated as errors.
+or
+
+.B cranberry --dir /path/to/directory --remove
+
+This program won't detect logs that are console.error() as there is a valid reason to show them. Comments that contain any console.log() will be treated as errors. The -r, --remove flag is highly experimental and may delete the whole line where the console log is located. Check your code for possible breakages.
 
 .SH AUTHOR
 Written by VentGrey & La Esquina Gris.
