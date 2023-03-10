@@ -24,8 +24,8 @@ func main() {
 
 	incidents := 0
 	skippedDirs := []string{".git", "vendor", "node_modules", "bower_components",
-		"tmp", "log", "logs", "cache", "coverage", "bin", "build", "dist", "out",
-		"target", "obj", "docs", "doc", "documentation"}
+		"tmp", "log", "logs", "cache", "coverage", "build", "dist", "out",
+		"target", "docs", "doc", "documentation"}
 
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -44,27 +44,19 @@ func main() {
 				return err
 			}
 
-			lines := strings.Split(string(content), "\n")
-
-			for i, line := range lines {
-				if strings.Contains(line, "console.log(") ||
-					strings.Contains(line, "console.table(") ||
-					strings.Contains(line, "console.warn(") ||
-					strings.Contains(line, "console.info(") ||
-					strings.Contains(line, "console.debug(") &&
-						!strings.Contains(line, "console.error") {
-
-					incidentType := ""
-
-					if strings.Contains(line, "console.log(") {
+			for i, line := range strings.Split(string(content), "\n") {
+				if strings.Contains(line, "console.") && !strings.Contains(line, "console.error") {
+					var incidentType string = ""
+					switch {
+					case strings.Contains(line, "console.log("):
 						incidentType = "console.log()"
-					} else if strings.Contains(line, "console.table(") {
+					case strings.Contains(line, "console.table("):
 						incidentType = "console.table()"
-					} else if strings.Contains(line, "console.warn(") {
-						incidentType = "console.warn()"
-					} else if strings.Contains(line, "console.info(") {
+					case strings.Contains(line, "console.info("):
 						incidentType = "console.info()"
-					} else if strings.Contains(line, "console.debug(") {
+					case strings.Contains(line, "console.warn("):
+						incidentType = "console.warn()"
+					case strings.Contains(line, "console.debug("):
 						incidentType = "console.debug()"
 					}
 
