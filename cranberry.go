@@ -12,9 +12,15 @@ import (
 )
 
 func main() {
-	var root string
+	var(
+		root string
+		removeOffend bool
+	)
+
 	flag.StringVar(&root, "dir", ".", "Directory to examine")
 	flag.StringVar(&root, "d", ".", "Directory to examine (shorthand)")
+	flag.BoolVar(&removeOffend, "remove", false, "Remove offending files")
+	flag.BoolVar(&removeOffend, "r", false, "Remove offending files (shorthand)")
 	flag.Parse()
 
 	if flag.NFlag() == 0 {
@@ -44,6 +50,7 @@ func main() {
 				return err
 			}
 
+			var newContent string
 			for i, line := range strings.Split(string(content), "\n") {
 				if strings.Contains(line, "console.") && !strings.Contains(line, "console.error") {
 					var incidentType string = ""
@@ -66,6 +73,18 @@ func main() {
 
 					fmt.Printf("%s in %s, line %s: %s\n", red(incidentType), yellow(path), blue(i+1), line)
 					incidents += 1
+
+					if removeOffend {
+						continue
+					}
+				}
+
+				newContent += line + "\n"
+			}
+
+			if removeOffend {
+				if err := ioutil.WriteFile(path, []byte(newContent), 0); err != nil {
+					return err
 				}
 			}
 		}
@@ -81,6 +100,12 @@ func main() {
 		fmt.Print(strings.Repeat("-", 80))
 		red := color.New(color.FgRed).SprintFunc()
 		fmt.Printf("\n%s %d %s\n", red("We found"), incidents, red("incidents!"))
+
+		if removeOffend {
+			fmt.Printf("%s\n", red("Incidents have been removed!"))
+			fmt.Printf("%s\n", red("WARNING! This feature is experimental, check your code for breakages!"))
+		}
+
 		os.Exit(1)
 	}
 
@@ -92,6 +117,7 @@ func help() {
 	fmt.Println("Options:")
 	fmt.Println("  -d, --dir <path>  Directory to examine")
 	fmt.Println("  -h, --help        Display this help message")
+	fmt.Println("  -r, --remove      Remove offending files (Experimental)")
 }
 
 func contains(s []string, val string) bool {
