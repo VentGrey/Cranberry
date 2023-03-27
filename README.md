@@ -67,3 +67,5 @@ Cranberry was created by [VentGrey & La Esquina Gris](https://ventgrey.github.io
 ## 📝 License
 
 Cranberry is licensed under the GPL-3+ License. See LICENSE for more information.
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FVentGrey%2FCranberry.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FVentGrey%2FCranberry?ref=badge_large)
