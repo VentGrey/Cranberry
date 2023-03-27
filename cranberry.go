@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"github.com/fatih/color"
@@ -76,16 +75,10 @@ func main() {
 					incidents += 1
 
 					if removeOffend {
-						re := regexp.MustCompile(`console\.(log|table|warn|info|debug)\([^\)]*\);?`)
-
-						// if the line contains a console statement, remove only that statement using the re above
-						if re.MatchString(line) {
-							newContent += re.ReplaceAllString(line, "") + "\n"
-						} else {
-							newContent += line + "\n"
-						}
+						line = strings.ReplaceAll(line, incidentType, "")
 					}
 				}
+
 				newContent += line + "\n"
 			}
 
