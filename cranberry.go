@@ -56,15 +56,15 @@ func main() {
 					var incidentType string = ""
 					switch {
 					case strings.Contains(line, "console.log("):
-						incidentType = "console.log()"
+						incidentType = "console.log("
 					case strings.Contains(line, "console.table("):
-						incidentType = "console.table()"
+						incidentType = "console.table("
 					case strings.Contains(line, "console.info("):
-						incidentType = "console.info()"
+						incidentType = "console.info("
 					case strings.Contains(line, "console.warn("):
-						incidentType = "console.warn()"
+						incidentType = "console.warn("
 					case strings.Contains(line, "console.debug("):
-						incidentType = "console.debug()"
+						incidentType = "console.debug("
 					}
 
 					red := color.New(color.FgRed).SprintFunc()
@@ -75,7 +75,7 @@ func main() {
 					incidents += 1
 
 					if removeOffend {
-						continue
+						line = strings.ReplaceAll(line, incidentType, "")
 					}
 				}
 
