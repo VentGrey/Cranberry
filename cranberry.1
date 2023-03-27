@@ -13,15 +13,15 @@ By default, it will search for files recursively in the current directory.
 
 .SH OPTIONS
 .TP
-\fB-d, --dir <path>\fR
+\fB-d, -dir <path>\fR
 Directory to examine. Default is current directory.
 
 .TP
-\fB-r, --remove\fR
+\fB-r, -remove\fR
 [Experimental] Remove offending lines of code.
 
 .TP
-\fB-h, --help\fR
+\fB-h, -help\fR
 Display a help message.
 
 .SH EXAMPLES
@@ -31,7 +31,7 @@ To search for console logs in a specific directory:
 
 or
 
-.B cranberry --dir /path/to/directory
+.B cranberry -dir /path/to/directory
 
 To delete the offending lines from all of the files in your project:
 
@@ -39,7 +39,7 @@ To delete the offending lines from all of the files in your project:
 
 or
 
-.B cranberry --dir /path/to/directory --remove
+.B cranberry -dir /path/to/directory --remove
 
 This program won't detect logs that are console.error() as there is a valid reason to show them. Comments that contain any console.log() will be treated as errors. The -r, --remove flag is highly experimental and may delete the whole line where the console log is located. Check your code for possible breakages.
 
